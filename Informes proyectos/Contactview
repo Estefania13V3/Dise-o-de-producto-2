@@ -1,0 +1,182 @@
+<template>
+  <div class="contact-view">
+    <!-- Encabezado con ícono de casa -->
+    <div class="header">
+      <button class="home-btn" @click="goToHome">
+        <img src="/icons/home.png" alt="Home" />
+      </button>
+      <h1>CONTACTO</h1>
+    </div>
+
+    <!-- Formulario de contacto -->
+    <form @submit.prevent="sendEmail" class="contact-form">
+      <div>
+        <label for="email">Correo electrónico:</label>
+        <input
+          type="email"
+          id="email"
+          v-model="form.email"
+          required
+        />
+      </div>
+      <div>
+        <label for="phone">Celular:</label>
+        <input
+          type="tel"
+          id="phone"
+          v-model="form.phone"
+        />
+      </div>
+      <div>
+        <label for="name">Nombre:</label>
+        <input
+          type="text"
+          id="name"
+          v-model="form.name"
+          required
+        />
+      </div>
+      <div>
+        <label for="message">Mensaje:</label>
+        <textarea
+          id="message"
+          v-model="form.message"
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="send-btn">ENVIAR</button>
+    </form>
+
+    <!-- Pie de página con botones de navegación y mapa -->
+    <footer class="footer">
+      <div class="footer-nav">
+        <button @click="goTo('home')">HOME</button>
+        <button @click="goTo('register')">REGISTRO</button>
+        <button @click="goTo('login')">INICIA SESIÓN</button>
+      </div>
+      <GmapMap
+        :center="{ lat: 4.6533326, lng: -74.083652 }"
+        :zoom="15"
+        style="width: 100%; height: 200px;"
+      >
+        <GmapMarker :position="{ lat: 4.6533326, lng: -74.083652 }" />
+      </GmapMap>
+    </footer>
+  </div>
+</template>
+
+<script>
+import { GmapMap, GmapMarker } from "vue2-google-maps";
+
+export default {
+  components: { GmapMap, GmapMarker },
+  data() {
+    return {
+      form: {
+        email: "",
+        phone: "",
+        name: "",
+        message: "",
+      },
+    };
+  },
+  methods: {
+    goTo(route) {
+      this.$router.push({ name: route });
+    },
+    goToHome() {
+      this.goTo("homeView");
+    },
+    sendEmail() {
+      fetch("/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.form),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Correo enviado exitosamente.");
+          } else {
+            throw new Error("Error al enviar el correo.");
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.contact-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+}
+
+.home-btn img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.contact-form {
+  width: 80%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form div {
+  margin-bottom: 15px;
+}
+
+.contact-form label {
+  display: block;
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.send-btn {
+  background-color: #90ee90;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.footer {
+  width: 100%;
+  background: #2e4c32;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.footer-nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0 10px;
+}
+</style>
