@@ -1,0 +1,160 @@
+<template>
+  <div class="home-container">
+    <div class="header">
+      <img
+        src="@/assets/Home-icon.png"
+        alt="Home"
+        class="home-icon"
+        @click="navigateTo('Home')"
+      />
+      <div class="header-buttons">
+        <button class="contact-button" @click="navigateTo('contact')">CONTÁCTANOS</button>
+        <div class="register-button-container" @click="navigateTo('register')">
+          <button class="register-button">REGÍSTRATE</button>
+          <img src="@/assets/user.png" alt="register icon" class="user-icon" />
+        </div>
+        <img
+          src="@/assets/login-icon.png"
+          alt="Login"
+          class="login-icon"
+          @click="navigateTo('login')"
+        />
+      </div>
+    </div>
+
+    <!-- Se agrega un contenedor único para envolver el contenido -->
+    <div class="content">
+      <div class="text-section">
+        <h1 class="title">LA SOLUCIÓN ECOLÓGICA EN TU GRIFO</h1>
+        <p class="description">
+          Con nuestro sistema avanzado de separación de agua y aceite, instalado directamente en tu
+          grifo, podrás recuperar y reutilizar cada gota de aceite de forma fácil y eficiente.
+        </p>
+      </div>
+      <div class="image-section">
+        <img
+          src="@/assets/oil-separator.jpg"
+          alt="Grifo con sistema"
+          class="separator-image"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    navigateTo(view) {
+      // Redirigir solo si no estamos en la vista especificada
+      if (this.$route.name !== view) {
+        this.$router.push({ name: view });
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.home-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #d9d9d9;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #d9d9d9;
+}
+
+.home-icon {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.contact-button {
+  background: transparent;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.register-button-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.register-button {
+  background: transparent;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+}
+
+.login-icon {
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.text-section {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  margin-bottom: 15px;
+}
+
+.description {
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.separator-image {
+  width: 90%;
+  max-width: 600px;
+  border-radius: 15px;
+}
+</style>
